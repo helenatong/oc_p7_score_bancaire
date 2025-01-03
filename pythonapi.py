@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from typing import List
 import joblib
+import uvicorn
 
 app = FastAPI()
 model = joblib.load(filename="lightgbm_model.joblib")
