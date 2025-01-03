@@ -8,7 +8,7 @@ full_pl = joblib.load(filename="lightgbm_model.joblib")
 
 @app.get("/")
 def home():
-    return {'api_availibility': 'OK_loaded'}
+    return {'pipeline_loaded': full_pl}
 
 
 # @app.get("/")
