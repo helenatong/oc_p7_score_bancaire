@@ -4,20 +4,20 @@ import joblib
 import uvicorn
 
 app = FastAPI()
-model = joblib.load(filename="lightgbm_model.joblib")
+full_pl = joblib.load(filename="lightgbm_model.joblib")
 
 @app.get("/")
 def home():
-    return {'api_availibility': 'OK_test', 'model_loaded': model}
+    return {'api_availibility': 'OK_test', 'pipeline_loaded': full_pl}
 
 @app.get('/test')
 def get_test():
-  prediction = model.predict(X.head(1))
+  prediction = full_pl.predict(X.head(1))
   return {'Prediction': prediction[0]}
 
 @app.post('/predict')
 def post_data(data: List[float]):
-  prediction = model.predict(data)[0]
+  prediction = full_pl.predict(data)[0]
   if prediction == 1:
     return {'Prediction': 'Donner le crédit'}
   return {'Prediction': 'Ne pas donner le crédit'}
