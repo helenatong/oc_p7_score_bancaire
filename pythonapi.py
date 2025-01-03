@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
-
+app = FastAPI()
 @app.get("/")
 def home():
     return {'api_availibility': 'OK', "model_loaded": 'ok'}
