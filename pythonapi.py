@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 
 app = FastAPI()
-MODEL_PATH = os.path.join("models", "lightgbm_model.joblib")
+MODEL_PATH = os.path.join("", "lightgbm_model.joblib")
 model = joblib.load(filename=MODEL_PATH)
 
 @app.get("/")
