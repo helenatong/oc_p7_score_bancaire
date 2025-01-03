@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from typing import List
 import joblib
 import uvicorn
-from lightgbm import LGBMClassifier
+# from lightgbm import LGBMClassifier
 
 app = FastAPI()
 full_pl = joblib.load(filename="lightgbm_model.joblib")
