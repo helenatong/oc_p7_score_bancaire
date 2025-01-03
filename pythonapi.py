@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 import uvicorn
+
 app = FastAPI()
+
 @app.get("/")
 def home():
-    return {'api_availibility': 'OK', "model_loaded": 'ok'}
+    return {'api_availibility': 'OK_test'}
 
 # app = FastAPI()
 # # MODEL_PATH = os.path.join("models", "lightgbm_model.joblib")
