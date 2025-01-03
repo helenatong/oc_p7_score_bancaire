@@ -3,6 +3,8 @@ import uvicorn
 
 app = FastAPI()
 
+model = joblib.load(filename="lightgbm_model.joblib")
+
 @app.get("/")
 def home():
     return {'api_availibility': 'OK_test'}
