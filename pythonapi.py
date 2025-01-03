@@ -3,11 +3,11 @@ import uvicorn
 
 app = FastAPI()
 MODEL_PATH = os.path.join("models", "lightgbm_model.joblib")
-model = joblib.load(filename=model_path)
+model = joblib.load(filename=MODEL_PATH)
 
 @app.get("/")
 def home():
-    return {'api_availibility': 'OK', "model_name": MODEL_PATH}
+    return {'api_availibility': 'OK', "model_loaded": model}
 
 @app.get('/test')
 def get_test():
