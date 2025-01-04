@@ -12,7 +12,11 @@ def home():
 
 @app.post('/predict')
 def post_data(data: List[float]):
-  prediction = full_pl.predict(data)[0]
-  if prediction == 1:
-    return {'Prediction': 'Donner le crédit'}
-  return {'Prediction': 'Ne pas donner le crédit'}
+    try:
+        prediction = full_pl.predict(data)[0]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur de prédiction: {e}")
+    # prediction = full_pl.predict(data)
+    if prediction == 1:
+        return {'Prediction': 'Donner le crédit'}
+    return {'Prediction': 'Ne pas donner le crédit'}
