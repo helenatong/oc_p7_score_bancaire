@@ -17,7 +17,8 @@ def home():
 
 @app.post('/predict')
 def post_data():
-    prediction = full_pl.predict(X.iloc[0].to_dict())
+    # prediction = full_pl.predict(X.iloc[0].to_dict())
+    prediction = full_pl.predict(X.iloc[0].values.reshape(1, -1))
     if prediction == 1:
         return {'Prediction': 'Donner le crédit'}
     return {'Prediction': 'Ne pas donner le crédit'}
