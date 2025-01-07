@@ -8,7 +8,7 @@ import imblearn
 
 app = FastAPI()
 full_pl = joblib.load(filename="lightgbm_model.joblib")
-data = pd.read_parquet("aggregated_df_30_variables.pq")
+data = pd.read_parquet("aggregated_df_30_variables.pq", engine='fastparquet')
 X = data.drop(columns = ['TARGET'])
 
 @app.get("/")
