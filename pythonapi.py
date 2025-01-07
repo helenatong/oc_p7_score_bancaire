@@ -4,7 +4,7 @@ import joblib
 import uvicorn
 
 app = FastAPI()
-full_pl = joblib.load(filename="lightgbm_model.joblib")
+# full_pl = joblib.load(filename="lightgbm_model.joblib")
 
 @app.get("/")
 def home():
