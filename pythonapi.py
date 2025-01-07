@@ -1,10 +1,11 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from typing import List
 import joblib
 import uvicorn
+import lightgbm
 
 app = FastAPI()
-# full_pl = joblib.load(filename="lightgbm_model.joblib")
+full_pl = joblib.load(filename="lightgbm_model.joblib")
 
 @app.get("/")
 def home():
