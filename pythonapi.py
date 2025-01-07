@@ -4,6 +4,7 @@ import joblib
 import uvicorn
 import lightgbm
 import pandas as pd
+import imblearn
 
 app = FastAPI()
 full_pl = joblib.load(filename="lightgbm_model.joblib")
