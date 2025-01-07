@@ -3,21 +3,20 @@ from typing import List
 import joblib
 import uvicorn
 import lightgbm
+import pandas as pd
 
 app = FastAPI()
 full_pl = joblib.load(filename="lightgbm_model.joblib")
+data = pd.read_parquet("aggregated_df_30_variables.pq")
+X = data.drop(columns = ['TARGET'])
 
 @app.get("/")
 def home():
     return {'api_availibility': 'OK_model_loaded'}
 
 @app.post('/predict')
-def post_data(data: List[float]):
-    # try:
-    #     prediction = full_pl.predict(data)[0]
-    # except Exception as e:
-    #     raise HTTPException(status_code=500, detail=f"Erreur de prédiction: {e}")
-    prediction = full_pl.predict(data)
+def post_data():
+    prediction = full_pl.predict(X.iloc[0])
     if prediction == 1:
         return {'Prediction': 'Donner le crédit'}
     return {'Prediction': 'Ne pas donner le crédit'}
