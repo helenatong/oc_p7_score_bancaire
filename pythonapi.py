@@ -6,7 +6,7 @@ import uvicorn
 import lightgbm
 import pandas as pd
 import imblearn
-
+import os
 
 
 # Configuration du logger
@@ -17,15 +17,21 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
+BASE_DIR = os.getcwd()
+
 
 # Logging du chargement des données
 try:
+    logger.info(f"Répertoire courant : {BASE_DIR}")
+    model_path = os.path.join(BASE_DIR, "lightgbm_model.joblib")
+    data_path = os.path.join(BASE_DIR, "aggregated_df_30_variables.pq")
+    
     logger.info("Début du chargement du modèle")
-    full_pl = joblib.load(filename="lightgbm_model.joblib")
+    full_pl = joblib.load(filename=model_path)
     logger.info("Modèle chargé avec succès")
 
     logger.info("Début du chargement des données")
-    data = pd.read_parquet("aggregated_df_30_variables.pq", engine='auto')
+    data = pd.read_parquet(data_path, engine='auto')
     logger.info("Données chargées avec succès")
     X = data.drop(columns=['TARGET'])
     logger.info(f"Shape des données: {X.shape}")
