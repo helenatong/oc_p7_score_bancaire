@@ -23,8 +23,10 @@ BASE_DIR = os.getcwd()
 # Logging du chargement des données
 try:
     logger.info(f"Répertoire courant : {BASE_DIR}")
-    model_path = os.path.join(BASE_DIR, "lightgbm_model.joblib")
-    data_path = os.path.join(BASE_DIR, "aggregated_df_30_variables.pq")
+    # model_path = os.path.join(BASE_DIR, "lightgbm_model.joblib")
+    # data_path = os.path.join(BASE_DIR, "aggregated_df_30_variables.pq")
+    model_path = "lightgbm_model.joblib"
+    data_path = "aggregated_df_30_variables.pq"
     
     logger.info("Début du chargement du modèle")
     full_pl = joblib.load(filename=model_path)
