@@ -21,7 +21,7 @@ app = FastAPI()
 # Logging du chargement des données
 try:
     logger.info("Début du chargement du modèle")
-    full_pl = joblib.load(filename="/lightgbm_model.joblib")
+    full_pl = joblib.load(filename="lightgbm_model.joblib")
     logger.info("Modèle chargé avec succès")
 
     logger.info("Début du chargement des données")
