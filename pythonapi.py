@@ -25,6 +25,7 @@ def post_data(id: int):
     try:
         if id not in data['SK_ID_CURR'].values:
             raise HTTPException(status_code=404, detail=f"ID {id} non trouvé")
+            return (f"ID {id} non trouvé")
         chosen_data = data[data['SK_ID_CURR'] == id].drop(columns=['SK_ID_CURR'])
         prediction = full_pl.predict(chosen_data)
         proba = full_pl.predict_proba(chosen_data)
