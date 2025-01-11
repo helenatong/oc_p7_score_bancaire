@@ -25,7 +25,6 @@ def post_data(id: int):
     try:
         if id not in data['SK_ID_CURR'].values:
             raise HTTPException(status_code=404, detail=f"ID {id} non trouvé")
-            return (f"ID {id} non trouvé")
         chosen_data = data[data['SK_ID_CURR'] == id].drop(columns=['SK_ID_CURR'])
         prediction = full_pl.predict(chosen_data)
         proba = full_pl.predict_proba(chosen_data)
@@ -35,5 +34,7 @@ def post_data(id: int):
             'prediction': 'Donner le crédit' if prediction[0] == 1 else 'Ne pas donner le crédit'
         }
         return result
+    except HTTPException as http_ex:
+        raise http_ex
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
