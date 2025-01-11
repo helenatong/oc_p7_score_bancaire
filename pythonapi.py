@@ -1,92 +1,38 @@
 from fastapi import FastAPI, HTTPException
-import logging
-from typing import List
 import joblib
 import uvicorn
 import lightgbm
 import pandas as pd
 import imblearn
-import os
+import logging
 
+# Chargement des données
+model_path = "lightgbm_model.joblib"
+data_path = "aggregated_df_30_variables.pq"
 
-# Configuration du logger
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+full_pl = joblib.load(filename=model_path)
+data = pd.read_parquet(data_path, engine='auto')
+data.drop(columns=['TARGET'], inplace=True)
 
+# Création de l'API
 app = FastAPI()
-BASE_DIR = os.getcwd()
-
-
-# Logging du chargement des données
-try:
-    logger.info(f"Répertoire courant : {BASE_DIR}")
-    # model_path = os.path.join(BASE_DIR, "lightgbm_model.joblib")
-    # data_path = os.path.join(BASE_DIR, "aggregated_df_30_variables.pq")
-    model_path = "lightgbm_model.joblib"
-    data_path = "aggregated_df_30_variables.pq"
-    
-    logger.info("Début du chargement du modèle")
-    full_pl = joblib.load(filename=model_path)
-    logger.info("Modèle chargé avec succès")
-
-    logger.info("Début du chargement des données")
-    data = pd.read_parquet(data_path, engine='auto')
-    logger.info("Données chargées avec succès")
-    X = data.drop(columns=['TARGET'])
-    logger.info(f"Shape des données: {X.shape}")
-except Exception as e:
-    logger.error(f"Erreur lors du chargement: {str(e)}")
-    raise
-
 @app.get("/")
 def home():
-    logger.info("Accès à la page d'accueil")
-    return {'api_availibility': 'OK_model_loaded'}
+    return {'api_availibility': 'OK'}
 
 @app.post('/predict')
-def post_data():
+def post_data(id: int):
     try:
-        logger.info("Début de la prédiction")
-        prediction = full_pl.predict(X.iloc[0].values.reshape(1, -1))
-        logger.info(f"Prédiction effectuée: {prediction}")
-        
-        result = {'Prediction': 'Donner le crédit' if prediction == 1 else 'Ne pas donner le crédit'}
-        logger.info(f"Réponse envoyée: {result}")
+        if id not in data['SK_ID_CURR'].values:
+            raise HTTPException(status_code=404, detail=f"ID {id} non trouvé")
+        chosen_data = data[data['SK_ID_CURR'] == id].drop(columns=['SK_ID_CURR'])
+        prediction = full_pl.predict(chosen_data)
+        proba = full_pl.predict_proba(chosen_data)
+        result = {
+            'client_id': id,
+            'probabilité_de_remboursement': round(float(proba[0][1]), 2),  # Probabilité de la classe positive
+            'prediction': 'Donner le crédit' if prediction[0] == 1 else 'Ne pas donner le crédit'
+        }
         return result
-        
     except Exception as e:
-        logger.error(f"Erreur lors de la prédiction: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-        
-# from fastapi import FastAPI, HTTPException
-# from typing import List
-# import joblib
-# import uvicorn
-# import lightgbm
-# import pandas as pd
-# import imblearn
-
-# app = FastAPI()
-# full_pl = joblib.load(filename="lightgbm_model.joblib")
-# data = pd.read_parquet("aggregated_df_30_variables.pq", engine='auto')
-# X = data.drop(columns = ['TARGET'])
-
-# @app.get("/")
-# def home():
-#     return {'api_availibility': 'OK_model_loaded'}
-
-# @app.post('/predict')
-# def post_data():
-#     # prediction = full_pl.predict(X.iloc[0].to_dict())
-#     prediction = full_pl.predict(X.iloc[0].values.reshape(1, -1))
-#     if prediction == 1:
-#         return {'Prediction': 'Donner le crédit'}
-#     return {'Prediction': 'Ne pas donner le crédit'}
-
-#         raise HTTPException(
-#             status_code=500,
-#             detail=f"Erreur lors de la prédiction: {str(e)}"
-#         )
