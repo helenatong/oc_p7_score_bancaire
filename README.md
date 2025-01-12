@@ -31,10 +31,8 @@ Outil de scoring crédit développé pour la banque "Prêt à dépenser" permett
 projet/
 ├── data/          # Données brutes et traitées
 ├── notebooks/     # Notebooks d'analyse (1 à 4)
-├── src/           # Code source
 ├── tests/         # Tests unitaires
 ├── api/           # Code API
-├── dashboard/     # Interface utilisateur
 ├── models/        # Modèles entraînés
 └── requirements.txt
 ```
