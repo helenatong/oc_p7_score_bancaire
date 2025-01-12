@@ -6,7 +6,7 @@ import pandas as pd
 import imblearn
 
 # Chargement des données
-model_path = "model/lightgbm_model.joblib"
+model_path = "models/lightgbm_model.joblib"
 data_path = "data/aggregated_df_30_variables.pq"
 
 full_pl = joblib.load(filename=model_path)
