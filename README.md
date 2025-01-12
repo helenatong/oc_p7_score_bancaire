@@ -11,17 +11,15 @@ Outil de scoring crédit développé pour la banque "Prêt à dépenser" permett
   - Agrégation des tables sources
   - Sélection des 30 variables les plus corrélées
 
-2. **Modélisation**
+2. **Préprocessing et Modélisation**
+  - Merge des différents datasets et choix des variables features
+  - Préprocessing des variables
   - Tests de différents modèles avec/sans équilibrage de classe
   - Score business custom (coût faux positif = 10x faux négatif)
     ie: le coùt d'un crédit accordé non remboursé est 10x supérieur à un crédit non accordé mais qui est remboursé
   - Choix final : LightGBM
 
-3. **Monitoring**
-  - Analyse du data drift sur les 30 features
-  - Résultat : Pas de drift global observé, 5 drifts locaux mais pas d'impact sur le modèle
-
-4. **Déploiement d'une API pour le modèle et tests API**
+3. **Déploiement d'une API pour le modèle et tests API**
   - Mise à disposition du modèle sur le Cloud
   - Tests de l'API déployé sur Azure Cloud
 
@@ -29,14 +27,14 @@ Outil de scoring crédit développé pour la banque "Prêt à dépenser" permett
 
 ```
 projet/
-├── data/          # Données brutes et traitées
-├── notebooks/     # Notebooks d'analyse (1 à 4)
-├── tests/         # Tests unitaires
-├── api/           # Code API
-├── models/        # Modèles entraînés
-└── requirements.txt
+├── api/             # Code API
+├── data/            # Dataset issue du prétraitement, utilisé pour l'entrainement
+├── models/          # Modèles entraînés .joblib
+├── notebooks/       # Notebooks de préprocessing et de modélisation
+├── requirements.txt # Version des packages pour le déploiement de l'API sur le Cloud
+├── packages.txt     # Liste des versions des packages utilisés dans le projet
+└── startup.sh/      # Installation des packages nécessaire pour l'API déployée sur le Cloud
 ```
-
 
 ## API
 **Endpoint** : https://apigrantcredit.azurewebsites.net  
@@ -48,7 +46,4 @@ projet/
 - **Métrique** : Score business custom (FP=10×FN)
 
 ## Données
-Source : [Lien vers les données]
-
-## Tests
-Tests unitaires de l'API disponibles dans `tests/`
+Source : https://www.kaggle.com/c/home-credit-default-risk/data
