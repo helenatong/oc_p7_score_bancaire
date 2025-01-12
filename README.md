@@ -28,8 +28,8 @@ Outil de scoring crédit développé pour la banque "Prêt à dépenser" permett
 ```
 projet/
 ├── api/             # Code API
-├── data/            # Dataset issue du prétraitement, utilisé pour l'entrainement
-├── models/          # Modèles entraînés .joblib
+├── data/            # Dataset issue du prétraitement, utilisé pour l'entrainement et pour l'API
+├── models/          # Modèles entraînés .joblib utilisé pour l'API
 ├── notebooks/       # Notebooks de préprocessing et de modélisation
 ├── requirements.txt # Version des packages pour le déploiement de l'API sur le Cloud
 ├── packages.txt     # Liste des versions des packages utilisés dans le projet
