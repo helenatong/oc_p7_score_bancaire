@@ -17,3 +17,5 @@ fi
 
 kill $APP_PID
 echo "Déploiement réussi"
+
+uvicorn api.pythonapi:app --host 0.0.0.0 --port 8000
