@@ -16,6 +16,11 @@ if [ $? -ne 0 ]; then
 fi
 
 kill $APP_PID
-echo "Déploiement réussi"
+echo "------------------------------"
+echo "------------------------------"
+echo "------------------------------"
+echo "Tests API réussis"
+echo "------------------------------"
+echo "------------------------------"
+echo "------------------------------"
 
-uvicorn api.pythonapi:app --host 0.0.0.0 --port 8000
