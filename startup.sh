@@ -3,6 +3,15 @@ apt-get install -y build-essential
 apt-get install -y cmake
 pip install -r requirements.txt
 
+echo "------------------------------"
+echo "------------------------------"
+echo "------------------------------"
+echo "JE VEUX VOIR LES LOOOOOGS"
+echo "------------------------------"
+echo "------------------------------"
+echo "------------------------------"
+
+
 uvicorn api.pythonapi:app --host 0.0.0.0 --port 8000 &
 APP_PID=$!
 
