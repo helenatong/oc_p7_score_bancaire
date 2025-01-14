@@ -1,0 +1,38 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+# Installation des dépendances système
+- script: |
+    sudo apt-get update
+    sudo apt-get install -y build-essential cmake
+  displayName: 'Install System Dependencies'
+
+# Configuration de Python
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.10'
+    addToPath: true
+  displayName: 'Set up Python'
+
+# Installation des dépendances Python
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install Python Dependencies'
+
+# Exécution des tests
+- script: |
+    pytest tests/test_api.py
+  displayName: 'Run Tests'
+
+# Déploiement sur Azure Web App
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Votre-Connexion-Service'
+    appName: 'votre-nom-app'
+    package: '$(System.DefaultWorkingDirectory)'
+    startUpCommand: 'startup.sh'
