@@ -1,12 +1,14 @@
+echo "------------------------------"
+echo "packages installation ..."
+echo "------------------------------"
+
 apt-get update
 apt-get install -y build-essential
 apt-get install -y cmake
 pip install -r requirements.txt
 
 echo "------------------------------"
-echo "------------------------------"
-echo "OK packages installation ..."
-echo "------------------------------"
+echo "packages installation success..."
 echo "------------------------------"
 
 
@@ -15,22 +17,22 @@ APP_PID=$!
 
 sleep 30
 
+echo "------------------------------"
+echo "begin API unit tests ..."
+echo "------------------------------"
+
 pytest tests/ -v
 
 if [ $? -ne 0 ]; then
     echo "------------------------------"
+    echo "ERROR: API unit tests failed - stopping deployment ..."
     echo "------------------------------"
-    echo "Tests failed - stopping deployment ..."
-    echo "------------------------------"
-    echo "------------------------------" 
-    kill $APP_PID  # Arrête l'application
+    kill $APP_PID
     exit 1
 fi
 
 kill $APP_PID
-echo "------------------------------"
+
 echo "------------------------------"
 echo "API unit tests success ..."
 echo "------------------------------"
-echo "------------------------------"
-
