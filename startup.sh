@@ -1,5 +1,6 @@
+echo "---------STARUP FROM GITHUB----------"
 echo "------------------------------"
-echo "packages installation ..."
+echo "packages installation  FROM GITHUB..."
 echo "------------------------------"
 
 apt-get update
@@ -8,7 +9,7 @@ apt-get install -y cmake
 pip install -r requirements.txt
 
 echo "------------------------------"
-echo "packages installation success..."
+echo "packages installation success  FROM GITHUB..."
 echo "------------------------------"
 
 
@@ -18,14 +19,14 @@ APP_PID=$!
 sleep 30
 
 echo "------------------------------"
-echo "begin API unit tests ..."
+echo "begin API unit tests FROM GITHUB ..."
 echo "------------------------------"
 
 pytest tests/ -v
 
 if [ $? -ne 0 ]; then
     echo "------------------------------"
-    echo "ERROR: API unit tests failed - stopping deployment ..."
+    echo "ERROR: API unit tests failed - stopping deployment  FROM GITHUB..."
     echo "------------------------------"
     kill $APP_PID
     exit 1
