@@ -53,7 +53,6 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
@@ -61,20 +60,55 @@ jobs:
           app-name: 'apigrantcredit2'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ECD45D290B774B42B30B748A18D4F85C }}
-          
+
   unit_test:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install test dependencies
-        run: |
-          pip install pytest requests
-          pip install pytest pytest
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
           
-      - name: Wait for deployment to stabilize
-        run: sleep 30  # Attendre que l'application soit complètement démarrée
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest requests
+          
+      - name: Wait and check deployment
+        run: |
+          echo "Waiting for deployment to stabilize..."
+          sleep 60
+          for i in {1..5}; do
+            if curl -s "https://apigrantcredit2-ddccfad9cpc3akcx.westeurope-01.azurewebsites.net" | grep -q "api_availibility"; then
+              echo "Application is ready!"
+              exit 0
+            fi
+            echo "Attempt $i: Application not ready yet..."
+            sleep 30
+          done
+          echo "Application failed to become ready"
+          exit 1
           
       - name: Run integration tests
         run: pytest tests/test_api.py
+        
+  # unit_test:
+  #   runs-on: ubuntu-latest
+  #   needs: deploy
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: Install test dependencies
+  #       run: |
+  #         pip install pytest requests
+  #         pip install pytest pytest
+          
+  #     - name: Wait for deployment to stabilize
+  #       run: sleep 30  # Attendre que l'application soit complètement démarrée
+          
+  #     - name: Run integration tests
+  #       run: pytest tests/test_api.py
