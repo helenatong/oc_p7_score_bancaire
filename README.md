@@ -33,11 +33,10 @@ projet/
 ├── notebooks/       # Notebooks de préprocessing et de modélisation
 ├── requirements.txt # Version des packages pour le déploiement de l'API sur le Cloud
 ├── packages.txt     # Liste des versions des packages utilisés dans le projet
-└── startup.sh/      # Installation des packages nécessaire pour l'API déployée sur le Cloud
 ```
 
 ## API
-**Endpoint** : https://apigrantcredit.azurewebsites.net  
+**Endpoint** : https://apigrantcredit2-ddccfad9cpc3akcx.westeurope-01.azurewebsites.net
 **Utilisation** : Envoi de l'ID crédit → Retour probabilité de remboursement
 
 ## Modèle 
