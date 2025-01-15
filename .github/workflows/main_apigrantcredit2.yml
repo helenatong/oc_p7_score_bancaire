@@ -1,4 +1,4 @@
-name: Deployment_NAME
+name: Github_Manual_Deployment
 
 on:
   workflow_dispatch:
@@ -80,5 +80,5 @@ jobs:
       - name: Run integration tests
         run: |
           uvicorn api.pythonapi:app --host 0.0.0.0 --port 8000 &
-          sleep 30  # Attendre que le serveur démarre avant de lancer les tests
+          sleep 15
           pytest tests/test_api.py
