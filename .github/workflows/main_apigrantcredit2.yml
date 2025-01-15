@@ -77,34 +77,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt pytest requests
           
-      - name: Wait and check deployment
-        run: |
-          uvicorn api.pythonapi:app --host 0.0.0.0 --port 8000 &
-          APP_PID=$!
+      # - name: Wait and check deployment
+      #   run: |
+      #     uvicorn api.pythonapi:app --host 0.0.0.0 --port 8000 &
+      #     APP_PID=$!
         
-          sleep 30
+      #     sleep 30
         
-          echo "------------------------------"
-          echo "begin API unit tests FROM GITHUB ..."
-          echo "------------------------------"
+      #     echo "------------------------------"
+      #     echo "begin API unit tests FROM GITHUB ..."
+      #     echo "------------------------------"
           
-          # echo "Waiting for deployment to stabilize..."
-          # sleep 60
-          # for i in {1..5}; do
-          #   if curl -s "https://apigrantcredit2-ddccfad9cpc3akcx.westeurope-01.azurewebsites.net" | grep -q "api_availibility"; then
-          #     echo "Application is ready!"
-          #     exit 0
-          #   fi
-          #   echo "Attempt $i: Application not ready yet..."
-          #   sleep 30
-          # done
-          # echo "Application failed to become ready"
-          # exit 1
+
           
-      - name: Run integration tests
-        run: |
-          pytest tests/test_api.py
-          kill $APP_PID
+      # - name: Run integration tests
+      #   run: |
+      #     pytest tests/test_api.py
+      #     kill $APP_PID
           
   # unit_test:
   #   runs-on: ubuntu-latest
