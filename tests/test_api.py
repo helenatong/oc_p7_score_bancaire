@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-API_URL = "https://apigrantcredit2.azurewebsites.net"
+API_URL = "https://apigrantcredit2-ddccfad9cpc3akcx.westeurope-01.azurewebsites.net"
 
 # Test de connexion à l'API
 def test_home_connexion():
