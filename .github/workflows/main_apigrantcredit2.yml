@@ -82,20 +82,3 @@ jobs:
           uvicorn api.pythonapi:app --host 0.0.0.0 --port 8000 &
           sleep 30  # Attendre que le serveur démarre avant de lancer les tests
           pytest tests/test_api.py
-          
-  # unit_test:
-  #   runs-on: ubuntu-latest
-  #   needs: deploy
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Install test dependencies
-  #       run: |
-  #         pip install pytest requests
-  #         pip install pytest pytest
-          
-  #     - name: Wait for deployment to stabilize
-  #       run: sleep 30  # Attendre que l'application soit complètement démarrée
-          
-  #     - name: Run integration tests
-  #       run: pytest tests/test_api.py
