@@ -27,7 +27,7 @@ def post_data(id: int):
             raise HTTPException(status_code=404, detail=f"ID {id} non trouvé")
         chosen_data = data[data['SK_ID_CURR'] == id].drop(columns=['SK_ID_CURR'])
         matrix_proba = full_pl.predict_proba(chosen_data)
-        proba = round(float(matrix_proba[0][1], 2)) # Probabilité de la classe positive de l'id
+        proba = round(float(matrix_proba[0][1]), 2) # Probabilité de la classe positive de l'id
         result = {
             'client_id': id,
             'probabilité_de_remboursement': proba,  
