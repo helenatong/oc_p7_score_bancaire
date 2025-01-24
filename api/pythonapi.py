@@ -12,6 +12,7 @@ data_path = "data/aggregated_df_30_variables.pq"
 full_pl = joblib.load(filename=model_path)
 data = pd.read_parquet(data_path, engine='auto')
 data.drop(columns=['TARGET'], inplace=True)
+THRESHOLD=0.53
 
 # Création de l'API
 app = FastAPI()
@@ -25,12 +26,12 @@ def post_data(id: int):
         if id not in data['SK_ID_CURR'].values:
             raise HTTPException(status_code=404, detail=f"ID {id} non trouvé")
         chosen_data = data[data['SK_ID_CURR'] == id].drop(columns=['SK_ID_CURR'])
-        prediction = full_pl.predict(chosen_data)
-        proba = full_pl.predict_proba(chosen_data)
+        matrix_proba = full_pl.predict_proba(chosen_data)
+        proba = round(float(matrix_proba[0][1], 2) # Probabilité de la classe positive de l'id
         result = {
             'client_id': id,
-            'probabilité_de_remboursement': round(float(proba[0][1]), 2),  # Probabilité de la classe positive
-            'prediction': 'Donner le crédit' if prediction[0] == 1 else 'Ne pas donner le crédit'
+            'probabilité_de_remboursement': proba,  
+            'prediction': 'Donner le crédit' if proba >= THRESHOLD else 'Ne pas donner le crédit'
         }
         return result
     except HTTPException as http_ex:
