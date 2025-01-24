@@ -12,6 +12,7 @@ data_path = "data/aggregated_df_30_variables.pq"
 full_pl = joblib.load(filename=model_path)
 data = pd.read_parquet(data_path, engine='auto')
 data.drop(columns=['TARGET'], inplace=True)
+proba_threshold = 0.53
 
 # Création de l'API
 app = FastAPI()
@@ -30,7 +31,7 @@ def post_data(id: int):
         result = {
             'client_id': id,
             'probabilité_de_remboursement': proba,  
-            'prediction': 'Donner le crédit' if proba >= 0.53 else 'Ne pas donner le crédit'
+            'prediction': 'Donner le crédit' if proba >= proba_threshold else 'Ne pas donner le crédit'
         }
         return result
     except HTTPException as http_ex:
