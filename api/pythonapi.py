@@ -7,10 +7,15 @@ import imblearn
 
 # Chargement des données
 model_path = "models/lightgbm_model.joblib"
-data_path = "data/aggregated_df_30_variables.pq"
+data_train_path = "data/aggregated_df_30_variables.pq"
+data_test_path = "data/df_test_processed.pq"
 
 full_pl = joblib.load(filename=model_path)
-data = pd.read_parquet(data_path, engine='auto')
+data_train = pd.read_parquet(data_train_path, engine='auto')
+data_test = pd.read_parquet(data_test_path, engine='auto')
+
+data = pd.concat([data_train, data_test], ignore_index=True)
+
 data.drop(columns=['TARGET'], inplace=True)
 proba_threshold = 0.53
 
